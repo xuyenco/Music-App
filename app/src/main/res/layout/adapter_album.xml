@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="5dp"
+        android:gravity="start"
+
+        >
+    <ImageView
+        android:id="@+id/imagealbum"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_margin="5dp"
+        android:src="@drawable/music_player"
+        ></ImageView>
+    <TextView
+        android:id="@+id/txttenbhalbum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:text="Tên bài hát"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="10dp"
+        ></TextView>
+    <TextView
+        android:id="@+id/txttentgalbum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:text="Tác giả"
+
+        android:layout_marginLeft="10dp"
+        ></TextView>
+
+    </LinearLayout>
+
+</LinearLayout>

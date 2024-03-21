@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">App_nhac</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="tab_trangchu_title">Trang chủ</string>
+    <string name="tab_timkiem_title">Tìm Kiếm</string>
+    <string name="tab_caidat_title">Cài Đặt</string>
+    <string name="tab_canhan_title">Cá Nhân</string>
+</resources>
