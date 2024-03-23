@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:padding="5dp">
     <ImageView
-        android:layout_marginLeft="15dp"
-        android:layout_width="55dp"
-        android:layout_height="55dp"
+        android:layout_marginLeft="5dp"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
+        android:scaleType="centerCrop"
         android:id="@+id/imagesong"
         android:layout_alignParentStart="true"
         android:src="@drawable/music_player">
@@ -15,15 +19,16 @@
     </ImageView>
 
     <LinearLayout
-        android:layout_width="133dp"
-        android:layout_height="55dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical">
         <TextView
             android:id="@+id/txttenbh"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:text="Bài hát"
+            android:layout_marginBottom="5dp"
+            android:text="Tên bài hát"
             android:textSize="20dp"></TextView>
         <TextView
             android:id="@+id/txttentg"
@@ -31,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
 
-            android:text="Tác giả"
+            android:text="Tên tác giả "
             android:textSize="20dp"></TextView>
 
 
