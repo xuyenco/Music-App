@@ -5,6 +5,8 @@ package com.example.app_nhac.Adapter;
 
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,17 +16,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.app_nhac.Model.Album;
+
 
 import com.example.app_nhac.R;
+import com.example.app_nhac.model.album;
 
 import java.util.ArrayList;
 
 public class AdapterAlbum extends RecyclerView.Adapter<AdapterAlbum.Adapteralbum> {
     private Context context;
-    private ArrayList<Album> item_songArrayList;
+    private ArrayList<album> item_songArrayList;
 
-    public AdapterAlbum(Context context, ArrayList<Album> item_songArrayList) {
+    public AdapterAlbum(Context context, ArrayList<album> item_songArrayList) {
         this.context = context;
         this.item_songArrayList = item_songArrayList;
     }
@@ -39,10 +42,12 @@ public class AdapterAlbum extends RecyclerView.Adapter<AdapterAlbum.Adapteralbum
 
     @Override
     public void onBindViewHolder(@NonNull Adapteralbum holder, int position) {
-        Album item_song=item_songArrayList.get(position);
-        holder.txttenbh.setText(item_song.getTenbh());
-        holder.txttentg.setText(item_song.getTentg());
-        holder.imageView.setImageResource(item_song.getImagealbum());
+        album item_song=item_songArrayList.get(position);
+        holder.txttenbh.setText(item_song.getTenalbum());
+        holder.txttentg.setText(item_song.getTencasialbum());
+        Bitmap hinhalbum = BitmapFactory.decodeByteArray(item_song.getHinhalbum(),0,item_song.getHinhalbum().length);
+        holder.imageView.setImageBitmap(hinhalbum);
+
 
     }
 

@@ -6,11 +6,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.example.app_nhac.Model.TopBXH;
+
 import com.example.app_nhac.R;
+import com.example.app_nhac.model.baihat;
 
 public class DanhsachbaihatActivity extends AppCompatActivity {
-    TopBXH item_song;
+    baihat item_song;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,8 +23,8 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
         Intent intent=new Intent();
         if (intent!=null){
             if (intent.hasExtra("qc")){
-                item_song = (TopBXH) intent.getSerializableExtra("qc");
-                Toast.makeText(this, item_song.getTenbh(), Toast.LENGTH_SHORT).show();
+                item_song = (baihat) intent.getSerializableExtra("qc");
+                Toast.makeText(this, item_song.getTenbaihat(), Toast.LENGTH_SHORT).show();
             }
         }
     }

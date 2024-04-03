@@ -1,6 +1,8 @@
 package com.example.app_nhac.Adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,17 +11,17 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.app_nhac.Model.Chude;
-import com.example.app_nhac.Model.TopBXH;
+
 import com.example.app_nhac.R;
+import com.example.app_nhac.model.chude;
 
 import java.util.ArrayList;
 
 public class Adapter_chude extends RecyclerView.Adapter<Adapter_chude.adapter_chude> {
      private Context context;
-     private ArrayList<Chude> item_songArrayList;
+     private ArrayList<chude> item_songArrayList;
 
-    public Adapter_chude(Context context, ArrayList<Chude> item_songArrayList) {
+    public Adapter_chude(Context context, ArrayList<chude> item_songArrayList) {
         this.context = context;
         this.item_songArrayList = item_songArrayList;
     }
@@ -33,13 +35,15 @@ public class Adapter_chude extends RecyclerView.Adapter<Adapter_chude.adapter_ch
 
     @Override
     public void onBindViewHolder(@NonNull adapter_chude holder, int position) {
-        Chude item_song=item_songArrayList.get(position);
-       holder.imagecd.setImageResource(item_song.getImagecd());
+        chude item_song=item_songArrayList.get(position);
+        Bitmap hinhchude = BitmapFactory.decodeByteArray(item_song.getHinhchude(),0,item_song.getHinhchude().length);
+        holder.imagecd.setImageBitmap(hinhchude);
+
     }
 
     @Override
     public int getItemCount() {
-        return 3;
+        return item_songArrayList.size();
     }
 
     public class adapter_chude extends RecyclerView.ViewHolder{

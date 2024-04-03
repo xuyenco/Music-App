@@ -3,6 +3,8 @@ package com.example.app_nhac.Fragment;
 
 
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.Toolbar;
@@ -20,11 +22,14 @@ import com.example.app_nhac.Adapter.AdapterAlbum;
 import com.example.app_nhac.Adapter.Adapter_TopBXH;
 import com.example.app_nhac.Adapter.Adapter_chude;
 import com.example.app_nhac.Adapter.Adapterbanner;
-import com.example.app_nhac.Model.Album;
-import com.example.app_nhac.Model.Chude;
-import com.example.app_nhac.Model.Quangcao;
-import com.example.app_nhac.Model.TopBXH;
+import com.example.app_nhac.Database.Database;
+
 import com.example.app_nhac.R;
+import com.example.app_nhac.model.album;
+import com.example.app_nhac.model.baihat;
+import com.example.app_nhac.model.chude;
+import com.example.app_nhac.model.quangcao;
+import com.example.app_nhac.model.theloai;
 
 
 import java.util.ArrayList;
@@ -38,15 +43,16 @@ public class Fragment_Trangchu extends Fragment {
     private ViewPager ViewPager;
     private RecyclerView recyclerViewchude;
     private RecyclerView recyclerViewalbum;
-    private RecyclerView recyclerViewtopbxh;
+    private RecyclerView recyclerViewbaihat;
 
     private CircleIndicator circleIndicator;
 
-    private ArrayList<Quangcao> quangcaoArrayList;
-    private ArrayList<Chude> chudeArrayList;
-    private ArrayList<Album>  albumArrayList;
-    private ArrayList<TopBXH> topBXHArrayList;
-    private Adapter_TopBXH adapter_topBXH;
+    private ArrayList<quangcao> quangcaoArrayList;
+    private ArrayList<chude> chudeArrayList;
+    private ArrayList<album>  albumArrayList;
+    private ArrayList<baihat> baihatArrayList;
+    private ArrayList<theloai> theloaiArrayList;
+    private Adapter_TopBXH adapter_baihat;
     private Adapter_chude adapter_chude;
     private AdapterAlbum adapterAlbum;
     private Adapterbanner adapter_qc;
@@ -57,6 +63,9 @@ public class Fragment_Trangchu extends Fragment {
 
     private int currentImageIndex ;
 
+     String DATABASE_NAME="My_music.db";
+   SQLiteDatabase database;
+   public String linkbaihat;
 
     public Fragment_Trangchu() {
         // Required empty public constructor
@@ -91,77 +100,121 @@ public class Fragment_Trangchu extends Fragment {
           circleIndicator=view.findViewById(R.id.circle_center);
         recyclerViewchude = view.findViewById(R.id.recyclerviewchude);
         recyclerViewalbum = view.findViewById(R.id.recyclerviewalbum);
-        recyclerViewtopbxh = view.findViewById(R.id.recyclerviewtopbxh);
+        recyclerViewbaihat = view.findViewById(R.id.recyclerviewtopbxh);
+       database= Database.initDatabase(getActivity(),DATABASE_NAME);
+       baihatArrayList=new ArrayList<>();
+        adapter_baihat = new Adapter_TopBXH(getContext(), baihatArrayList);
+        Cursor cursor=database.query("baihat",null,null,null,null,null,null);
+        cursor.moveToFirst();
+         baihatArrayList.clear();
+        while (cursor.isAfterLast()==false){
+
+            int idbaihat =cursor.getInt(0);
+            int idalbum =cursor.getInt(1);
+            int idtheloai=cursor.getInt(2);
+            int idplaylist=cursor.getInt(3);
+            String tenbaihat=cursor.getString(4);
+            byte[] hinhbaihat=cursor.getBlob(5);
+
+            String casi=cursor.getString(6);
+             linkbaihat=cursor.getString(7);
+
+            baihatArrayList.add(new baihat(idbaihat,idalbum,idtheloai,idplaylist,tenbaihat,casi,linkbaihat,hinhbaihat));
+            cursor.moveToNext();
+        }
+
+        cursor.close();
+        recyclerViewbaihat.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerViewbaihat.setAdapter(adapter_baihat);
+        recyclerViewbaihat.setHasFixedSize(true);
+        adapter_baihat.notifyDataSetChanged();
+
+        chudeArrayList=new ArrayList<>();
+
+        adapter_chude = new Adapter_chude(getContext(), chudeArrayList);
+        Cursor cursor2=database.query("chude",null,null,null,null,null,null);
+        cursor2.moveToFirst();
+        chudeArrayList.clear();
+        while (cursor2.isAfterLast()==false){
+
+            int idchude =cursor2.getInt(0);
+            String tenchude =cursor2.getString(1);
+            byte[]  hinhchude=cursor2.getBlob(2);
 
 
-        TopBXH item_song1 = new TopBXH(1, "Sau lời từ khước", "Phan Mạnh Quỳnh", R.drawable.sauloitukhuoc );
-        TopBXH item_song2 = new TopBXH(2, "Nâng chén tiêu sầu", "Bích Phương", R.drawable.nangchentieusau  );
-        TopBXH item_song3 = new TopBXH(3, "Chúng ta của tương lai", "Sơn Tùng", R.drawable.chungtacuatuonglai );
-        TopBXH item_song4 = new TopBXH(4, "Anh nhớ ra", "Vũ", R.drawable.anhnhora);
-        TopBXH item_song5 = new TopBXH(5, "Ngày em đẹp nhất", "TAMA", R.drawable.ngayemdepnhta);
-        TopBXH item_song6 = new TopBXH(6, "Người ta có thương mình", "Trúc Nhân", R.drawable.nguoitacothuongminh);
-        Quangcao quangcao1=new Quangcao(R.drawable.pmq,R.drawable.sauloitukhuoc,"Sau lời từ khước","Bài hát được sáng tác cho nhạc phim Mai và thành công");
-        Quangcao quangcao2=new Quangcao(R.drawable.bp,R.drawable.nangchentieusau,"Nâng chén tiêu sầu","Bài hát đã tạo ra 1 kỉ lục lượt view");
-        Quangcao quangcao3=new Quangcao(R.drawable.st,R.drawable.chungtacuatuonglai,"Chúng ta của tương lai","Sơn Tùng là ca sĩ top đầu Việt nam");
-         Chude Chude1=new Chude(R.drawable.chude);
-        Chude Chude2=new Chude(R.drawable.chude2);
-        Chude Chude3=new Chude(R.drawable.chude3);
-        Album album1=new Album("Sau lời từ khước", "Phan Mạnh Quỳnh", R.drawable.sauloitukhuoc );
-        Album album2=new Album("Nâng chén tiêu sầu", "Bích Phương", R.drawable.nangchentieusau);
-        Album album3=new Album("Chúng ta của tương lai", "Sơn Tùng", R.drawable.chungtacuatuonglai );
-        Album album4=new Album("Anh nhớ ra", "Vũ", R.drawable.anhnhora );
-        Album album5=new Album("Ngày em đẹp nhất", "TAMA", R.drawable.ngayemdepnhta );
-        Album album6=new Album("Người ta có thương mình", "Trúc Nhân", R.drawable.nguoitacothuongminh );
+            chudeArrayList.add(new chude(idchude,tenchude,hinhchude));
+            cursor2.moveToNext();
+        }
 
-        topBXHArrayList = new ArrayList<>();
-        topBXHArrayList.add(item_song1);
-        topBXHArrayList.add(item_song2);
-        topBXHArrayList.add(item_song3);
-        topBXHArrayList.add(item_song4);
-        topBXHArrayList.add(item_song5);
-        topBXHArrayList.add(item_song6);
-
-        chudeArrayList = new ArrayList<>();
-        chudeArrayList.add(Chude1);
-        chudeArrayList.add(Chude2);
-        chudeArrayList.add(Chude3);
-        quangcaoArrayList=new ArrayList<>();
-
-        quangcaoArrayList.add(quangcao1);
-        quangcaoArrayList.add(quangcao2);
-        quangcaoArrayList.add(quangcao3);
-        albumArrayList=new ArrayList<>();
-        albumArrayList.add(album1);
-        albumArrayList.add(album2);
-        albumArrayList.add(album3);
-        albumArrayList.add(album4);
-        albumArrayList.add(album5);
-        albumArrayList.add(album6);
-
-
-        recyclerViewtopbxh.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter_topBXH = new Adapter_TopBXH(getContext(), topBXHArrayList);
-        recyclerViewtopbxh.setAdapter(adapter_topBXH);
-        recyclerViewtopbxh.setHasFixedSize(true);
-
+        cursor2.close();
 
 
         LinearLayoutManager linearLayout = new LinearLayoutManager(getActivity());
         linearLayout.setOrientation(RecyclerView.HORIZONTAL);
         recyclerViewchude.setLayoutManager(linearLayout);
-        adapter_chude=new Adapter_chude(getActivity(),chudeArrayList);
+
         recyclerViewchude.setAdapter(adapter_chude);
+        adapter_chude.notifyDataSetChanged();
+
+        albumArrayList=new ArrayList<>();
+
+        adapterAlbum = new AdapterAlbum(getContext(), albumArrayList);
+        Cursor cursor3=database.query("album",null,null,null,null,null,null);
+        cursor3.moveToFirst();
+        albumArrayList.clear();
+        while (cursor3.isAfterLast()==false){
+
+            int idalbum =cursor3.getInt(0);
+            String tenalbum =cursor3.getString(1);
+            String tencasialbum=cursor3.getString(2);
+            byte[]  hinhalbum=cursor3.getBlob(3);
+
+
+            albumArrayList.add(new album(idalbum,tenalbum,tencasialbum,hinhalbum));
+            cursor3.moveToNext();
+        }
+
+        cursor3.close();
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
         recyclerViewalbum.setLayoutManager(linearLayoutManager);
         recyclerViewalbum.setHasFixedSize(true);
-        adapterAlbum = new AdapterAlbum(getContext(), albumArrayList);
+
         recyclerViewalbum.setAdapter(adapterAlbum);
+        adapterAlbum.notifyDataSetChanged();
+
+        quangcaoArrayList=new ArrayList<>();
+
+        adapter_qc = new Adapterbanner(getContext(), quangcaoArrayList);
+        Cursor cursor4=database.query("quangcao",null,null,null,null,null,null);
+        cursor4.moveToFirst();
+        quangcaoArrayList.clear();
+        while (cursor4.isAfterLast()==false){
+
+            int idqc =cursor4.getInt(0);
+            byte[] hinhqc=cursor4.getBlob(1);
+            String noidung =cursor4.getString(2);
+            int idbaihat=cursor4.getInt(3);
+
+            String tenbaihat="";
+            for (baihat baihat: baihatArrayList){
+                if (baihat.getIdbaihat()==idbaihat){
+                    tenbaihat=baihat.getTenbaihat();
+                    break;
+                }
+            }
 
 
-        adapter_qc = new Adapterbanner(getActivity(), quangcaoArrayList);
+            quangcaoArrayList.add(new quangcao(idqc,hinhqc,noidung,idbaihat,tenbaihat));
+            cursor4.moveToNext();
+
+        }
+
+        cursor4.close();
+
         ViewPager.setAdapter(adapter_qc);
+        adapter_qc.notifyDataSetChanged();
         circleIndicator.setViewPager(ViewPager);
 
       handler=new Handler();
@@ -178,7 +231,6 @@ public class Fragment_Trangchu extends Fragment {
           }
       };
       handler.postDelayed(runnable,3000);
-
 
 
 
