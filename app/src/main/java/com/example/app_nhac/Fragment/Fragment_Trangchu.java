@@ -3,6 +3,7 @@ package com.example.app_nhac.Fragment;
 
 
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -17,7 +18,10 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.example.app_nhac.Activity.AlbumActivity;
+import com.example.app_nhac.Activity.TheLoaiActivity;
 import com.example.app_nhac.Adapter.AdapterAlbum;
 import com.example.app_nhac.Adapter.Adapter_TopBXH;
 import com.example.app_nhac.Adapter.Adapter_chude;
@@ -41,6 +45,7 @@ import me.relex.circleindicator.CircleIndicator;
 public class Fragment_Trangchu extends Fragment {
     private Toolbar toolbar;
     private ViewPager ViewPager;
+    private TextView txtXemThemTL, txtXemThemAlbum;
     private RecyclerView recyclerViewchude;
     private RecyclerView recyclerViewalbum;
     private RecyclerView recyclerViewbaihat;
@@ -101,9 +106,28 @@ public class Fragment_Trangchu extends Fragment {
         recyclerViewchude = view.findViewById(R.id.recyclerviewchude);
         recyclerViewalbum = view.findViewById(R.id.recyclerviewalbum);
         recyclerViewbaihat = view.findViewById(R.id.recyclerviewtopbxh);
+        txtXemThemTL = view.findViewById(R.id.tvXemThemTL);
+        txtXemThemAlbum = view.findViewById(R.id.tvXemThemAlbum);
        database= Database.initDatabase(getActivity(),DATABASE_NAME);
        baihatArrayList=new ArrayList<>();
         adapter_baihat = new Adapter_TopBXH(getContext(), baihatArrayList);
+
+        txtXemThemTL.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), TheLoaiActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        txtXemThemAlbum.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), AlbumActivity.class);
+                startActivity(intent);
+            }
+        });
+
         Cursor cursor=database.query("baihat",null,null,null,null,null,null);
         cursor.moveToFirst();
          baihatArrayList.clear();
