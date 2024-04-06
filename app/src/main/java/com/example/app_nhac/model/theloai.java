@@ -3,9 +3,9 @@ package com.example.app_nhac.model;
 public class theloai {
     int idtheloai,idchude;
     String tentheloai;
-    int hinhtheloai;
+    byte[] hinhtheloai;
 
-    public theloai(int idtheloai, int idchude, String tentheloai, int hinhtheloai) {
+    public theloai(int idtheloai, int idchude, String tentheloai, byte[] hinhtheloai) {
         this.idtheloai = idtheloai;
         this.idchude = idchude;
         this.tentheloai = tentheloai;
@@ -36,11 +36,11 @@ public class theloai {
         this.tentheloai = tentheloai;
     }
 
-    public int getHinhtheloai() {
+    public byte[] getHinhtheloai() {
         return hinhtheloai;
     }
 
-    public void setHinhtheloai(int hinhtheloai) {
+    public void setHinhtheloai(byte[] hinhtheloai) {
         this.hinhtheloai = hinhtheloai;
     }
 }
