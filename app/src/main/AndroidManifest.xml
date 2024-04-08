@@ -5,7 +5,6 @@
     <uses-permission android:name="android.permission.READ_MEDIA_AUDIO"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
-
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -16,6 +15,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.App_nhac"
         tools:targetApi="31">
+        <activity
+            android:name=".Activity.Album_NhacActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.TheLoai_NhacActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.AlbumActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.TheLoaiActivity"
+            android:exported="false" />
         <activity
             android:name=".Activity.DanhsachbaihatActivity"
             android:exported="false" />
