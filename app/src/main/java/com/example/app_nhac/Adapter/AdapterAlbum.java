@@ -48,7 +48,6 @@ public class AdapterAlbum extends RecyclerView.Adapter<AdapterAlbum.Adapteralbum
         Bitmap hinhalbum = BitmapFactory.decodeByteArray(item_song.getHinhalbum(),0,item_song.getHinhalbum().length);
         holder.imageView.setImageBitmap(hinhalbum);
 
-
     }
 
 

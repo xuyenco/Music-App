@@ -2,11 +2,19 @@ package com.example.app_nhac.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 import androidx.fragment.app.FragmentManager;
+
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.widget.Toast;
+
 import androidx.fragment.app.FragmentManager;
 
 
@@ -31,6 +39,10 @@ private int[] mTabTitle=new int[]{R.string.tab_trangchu_title,R.string.tab_timki
         setContentView(R.layout.activity_main);
         tabLayout=findViewById(R.id.MyTableLayout);
         viewPager=findViewById(R.id.myViewPager);
+        if(checkPermission() == false){
+            requestPermission();
+            return;
+        }
         init();
     }
     public void init(){
@@ -52,6 +64,37 @@ private int[] mTabTitle=new int[]{R.string.tab_trangchu_title,R.string.tab_timki
             }
         }).attach();
 
+    }
+    boolean checkPermission(){
+        if(android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
+            int result = ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_MEDIA_AUDIO);
+            if(result == PackageManager.PERMISSION_GRANTED){
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            int result = ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE);
+            if(result == PackageManager.PERMISSION_GRANTED){
+                return true;
+            }else{
+                return false;
+            }
+        }
+    }
+
+    void requestPermission(){
+        if(android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
+            if(ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,Manifest.permission.READ_MEDIA_AUDIO)){
+                Toast.makeText(MainActivity.this,"READ PERMISSION IS REQUIRED,PLEASE ALLOW FROM SETTTINGS",Toast.LENGTH_SHORT).show();
+            }else
+                ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.READ_MEDIA_AUDIO},123);
+        }else{
+            if(ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,Manifest.permission.READ_EXTERNAL_STORAGE)){
+                Toast.makeText(MainActivity.this,"READ PERMISSION IS REQUIRED,PLEASE ALLOW FROM SETTTINGS",Toast.LENGTH_SHORT).show();
+            }else
+                ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},123);
+        }
     }
 
 
