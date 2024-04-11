@@ -102,14 +102,14 @@ public class Fragment_Trangchu extends Fragment {
         View view = inflater.inflate(R.layout.fragment__trangchu, container, false);
         toolbar = view.findViewById(R.id.toolbartrangchu);
         ViewPager = view.findViewById(R.id.ViewPager);
-          circleIndicator=view.findViewById(R.id.circle_center);
+        circleIndicator=view.findViewById(R.id.circle_center);
         recyclerViewchude = view.findViewById(R.id.recyclerviewchude);
         recyclerViewalbum = view.findViewById(R.id.recyclerviewalbum);
         recyclerViewbaihat = view.findViewById(R.id.recyclerviewtopbxh);
         txtXemThemTL = view.findViewById(R.id.tvXemThemTL);
         txtXemThemAlbum = view.findViewById(R.id.tvXemThemAlbum);
-       database= Database.initDatabase(getActivity(),DATABASE_NAME);
-       baihatArrayList=new ArrayList<>();
+        database= Database.initDatabase(getActivity(),DATABASE_NAME);
+        baihatArrayList=new ArrayList<>();
         adapter_baihat = new Adapter_TopBXH(getContext(), baihatArrayList);
 
         txtXemThemTL.setOnClickListener(new View.OnClickListener() {
@@ -153,9 +153,10 @@ public class Fragment_Trangchu extends Fragment {
         recyclerViewbaihat.setHasFixedSize(true);
         adapter_baihat.notifyDataSetChanged();
 
-        chudeArrayList=new ArrayList<>();
 
-        adapter_chude = new Adapter_chude(getContext(), chudeArrayList);
+        chudeArrayList=new ArrayList<>();
+        theloaiArrayList=new ArrayList<>();
+        adapter_chude = new Adapter_chude(getContext(), chudeArrayList,theloaiArrayList);
         Cursor cursor2=database.query("chude",null,null,null,null,null,null);
         cursor2.moveToFirst();
         chudeArrayList.clear();
@@ -169,20 +170,31 @@ public class Fragment_Trangchu extends Fragment {
             chudeArrayList.add(new chude(idchude,tenchude,hinhchude));
             cursor2.moveToNext();
         }
-
         cursor2.close();
 
+        Cursor cursor5=database.query("theloai",null,null,null,null,null,null);
+        cursor5.moveToFirst();
+        theloaiArrayList.clear();
+        while (cursor5.isAfterLast()==false){
+
+            int idtheloai =cursor5.getInt(0);
+            int idchude =cursor5.getInt(1);
+            String tentheloai =cursor5.getString(2);
+            byte[]  hinhtheloai=cursor5.getBlob(3);
+            theloaiArrayList.add(new theloai(idtheloai,idchude,tentheloai,hinhtheloai));
+            cursor5.moveToNext();
+        }
+        cursor5.close();
 
         LinearLayoutManager linearLayout = new LinearLayoutManager(getActivity());
         linearLayout.setOrientation(RecyclerView.HORIZONTAL);
         recyclerViewchude.setLayoutManager(linearLayout);
-
         recyclerViewchude.setAdapter(adapter_chude);
         adapter_chude.notifyDataSetChanged();
 
-        albumArrayList=new ArrayList<>();
 
-        adapterAlbum = new AdapterAlbum(getContext(), albumArrayList);
+
+        albumArrayList=new ArrayList<>();
         Cursor cursor3=database.query("album",null,null,null,null,null,null);
         cursor3.moveToFirst();
         albumArrayList.clear();
@@ -197,19 +209,18 @@ public class Fragment_Trangchu extends Fragment {
             albumArrayList.add(new album(idalbum,tenalbum,tencasialbum,hinhalbum));
             cursor3.moveToNext();
         }
-
         cursor3.close();
-
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
         recyclerViewalbum.setLayoutManager(linearLayoutManager);
         recyclerViewalbum.setHasFixedSize(true);
-
+        adapterAlbum = new AdapterAlbum(getContext(), albumArrayList);
         recyclerViewalbum.setAdapter(adapterAlbum);
         adapterAlbum.notifyDataSetChanged();
 
-        quangcaoArrayList=new ArrayList<>();
 
+
+        quangcaoArrayList=new ArrayList<>();
         adapter_qc = new Adapterbanner(getContext(), quangcaoArrayList);
         Cursor cursor4=database.query("quangcao",null,null,null,null,null,null);
         cursor4.moveToFirst();

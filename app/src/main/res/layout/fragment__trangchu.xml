@@ -45,15 +45,12 @@
                        android:layout_width="match_parent"
                        android:layout_height="200dp"
                        android:inAnimation="@anim/slide_in_right"
-                       android:outAnimation="@anim/slide_in_left"
-
-                       >
+                       android:outAnimation="@anim/slide_in_left">
 
                        <me.relex.circleindicator.CircleIndicator
                            android:layout_width="wrap_content"
                            android:layout_height="13dp"
                            android:layout_marginTop="10dp"
-
                            android:id="@+id/circle_center"
                            ></me.relex.circleindicator.CircleIndicator>
 
@@ -142,7 +139,7 @@
             <androidx.recyclerview.widget.RecyclerView
 
                 android:id="@+id/recyclerviewalbum"
-                android:layout_width="807dp"
+                android:layout_width="match_parent"
                 android:layout_height="236dp"
           ></androidx.recyclerview.widget.RecyclerView>
         </LinearLayout>
@@ -169,9 +166,6 @@
             android:id="@+id/recyclerviewtopbxh"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
-
-
  ></androidx.recyclerview.widget.RecyclerView>
         </LinearLayout>
     </LinearLayout>

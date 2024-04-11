@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.app_nhac.Adapter.PlaylistAdapter;
 import com.example.app_nhac.Instance.MyMediaPlayer;
 import com.example.app_nhac.Notification.CreateMediaNotification;
@@ -41,6 +42,7 @@ public class NhacDangChayActivity extends AppCompatActivity implements PlaylistA
     MediaPlayer mediaPlayer = MyMediaPlayer.getInstance();
     NotificationManager notificationManager;
     int x = 0;
+    int current = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,11 +60,18 @@ public class NhacDangChayActivity extends AppCompatActivity implements PlaylistA
         PlayListRV = findViewById(R.id.PlayListRV);
 
 
+        songsList = (ArrayList<AudioModel>) getIntent().getSerializableExtra("LIST");
         titleTv.setSelected(true);
 
-        songsList = (ArrayList<AudioModel>) getIntent().getSerializableExtra("LIST");
+        if (getIntent().getSerializableExtra("index") != null){
+
+            current =(int) getIntent().getSerializableExtra("index");
+        }
+
 
         setResourcesWithMusic();
+
+
 
         NhacDangChayActivity.this.runOnUiThread(new Runnable() {
             @Override
@@ -152,13 +161,26 @@ public class NhacDangChayActivity extends AppCompatActivity implements PlaylistA
         }
     };
     void setResourcesWithMusic(){
+        if(current != -1){
+            MyMediaPlayer.currentIndex = current;
+        }
         currentSong = songsList.get(MyMediaPlayer.currentIndex);
 
         titleTv.setText(currentSong.getTitle());
-        totalTimeTv.setText(convertToMMSS(currentSong.getDuration()));
+//        totalTimeTv.setText(convertToMMSS(currentSong.getDuration()));
+
+        if(current != -1){
+            MyMediaPlayer.currentIndex = current;
+        }
+
         pausePlay.setOnClickListener(v-> pausePlay());
         nextBtn.setOnClickListener(v-> playNextSong());
         previousBtn.setOnClickListener(v-> playPreviousSong());
+        //ghep hinh
+        if (!isDestroyed() && currentSong.getImage() != null) {
+            Glide.with(NhacDangChayActivity.this).load(currentSong.getImage()).into(musicIcon);
+        }
+
 
         setCurrentlyPlayingRV();
 
@@ -182,6 +204,8 @@ public class NhacDangChayActivity extends AppCompatActivity implements PlaylistA
             mediaPlayer.start();
             seekBar.setProgress(0);
             seekBar.setMax(mediaPlayer.getDuration());
+            String totaltime = String.valueOf(mediaPlayer.getDuration());
+            totalTimeTv.setText(convertToMMSS(totaltime));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -224,13 +248,13 @@ public class NhacDangChayActivity extends AppCompatActivity implements PlaylistA
                 TimeUnit.MILLISECONDS.toMinutes(millis) % TimeUnit.HOURS.toMinutes(1),
                 TimeUnit.MILLISECONDS.toSeconds(millis) % TimeUnit.MINUTES.toSeconds(1));
     }
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            notificationManager.cancelAll();
-        }
-
-        unregisterReceiver(broadcastReceiver);
-    }
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+//            notificationManager.cancelAll();
+//        }
+//
+//        unregisterReceiver(broadcastReceiver);
+//    }
 }

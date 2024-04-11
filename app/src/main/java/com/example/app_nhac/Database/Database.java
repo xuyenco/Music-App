@@ -17,7 +17,6 @@ import java.io.OutputStream;
 public class Database {
 
     public static SQLiteDatabase initDatabase(Activity activity, String DATABASE_NAME) {
-
         File dbfile = activity.getDatabasePath(DATABASE_NAME);
         if (!dbfile.exists()) {
             try {

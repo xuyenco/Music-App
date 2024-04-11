@@ -4,6 +4,8 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.support.v4.media.session.MediaSessionCompat;
 
@@ -29,21 +31,19 @@ public class CreateMediaNotification {
 
             NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(context);
             MediaSessionCompat mediaSessionCompat = new MediaSessionCompat( context, "tag");
-
-//            Bitmap icon = BitmapFactory.decodeResource(context.getResources(), track.getImage());
-
+            Bitmap defaultIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.music_icon_big);
+            Bitmap icon = null;
+            if (track.getImage() != null && track.getImage().length > 0) {
+                icon = BitmapFactory.decodeByteArray(track.getImage(), 0, track.getImage().length);
+            }
+            Bitmap largeIconBitmap = icon != null ? icon : defaultIcon;
             PendingIntent pendingIntentPrevious;
             int drw_previous;
-            if (pos == 0){
-                pendingIntentPrevious = null;
-                drw_previous = 0;
-            } else {
-                Intent intentPrevious = new Intent(context, NotificationActionService.class)
-                        .setAction(ACTION_PREVIUOS);
-                pendingIntentPrevious = PendingIntent.getBroadcast(context, 0,
-                        intentPrevious, PendingIntent.FLAG_MUTABLE);
-                drw_previous = R.drawable.ic_baseline_skip_previous_24;
-            }
+            Intent intentPrevious = new Intent(context, NotificationActionService.class)
+                    .setAction(ACTION_PREVIUOS);
+            pendingIntentPrevious = PendingIntent.getBroadcast(context, 0,
+                    intentPrevious, PendingIntent.FLAG_MUTABLE);
+            drw_previous = R.drawable.ic_baseline_skip_previous_24;
 
             Intent intentPlay = new Intent(context, NotificationActionService.class)
                     .setAction(ACTION_PLAY);
@@ -52,23 +52,18 @@ public class CreateMediaNotification {
 
             PendingIntent pendingIntentNext;
             int drw_next;
-            if (pos == size){
-                pendingIntentNext = null;
-                drw_next = 0;
-            } else {
-                Intent intentNext = new Intent(context, NotificationActionService.class)
-                        .setAction(ACTION_NEXT);
-                pendingIntentNext = PendingIntent.getBroadcast(context, 0,
-                        intentNext, PendingIntent.FLAG_MUTABLE);
-                drw_next = R.drawable.ic_baseline_skip_next_24;
-            }
+            Intent intentNext = new Intent(context, NotificationActionService.class)
+                    .setAction(ACTION_NEXT);
+            pendingIntentNext = PendingIntent.getBroadcast(context, 0,
+                    intentNext, PendingIntent.FLAG_MUTABLE);
+            drw_next = R.drawable.ic_baseline_skip_next_24;
 
             //create notification
             notification = new NotificationCompat.Builder(context, CHANNEL_ID)
                     .setSmallIcon(R.drawable.music_icon)
                     .setContentTitle(track.getTitle())
                     .setContentText(track.getTitle())
-//                    .setLargeIcon(R.drawable.music_icon_big)
+                    .setLargeIcon(largeIconBitmap)
                     .setOnlyAlertOnce(true)//show notification for only first time
                     .setShowWhen(false)
                     .addAction(drw_previous, "Previous", pendingIntentPrevious)

@@ -46,7 +46,6 @@ public class Adapter_Album extends RecyclerView.Adapter<Adapter_Album.ViewHolder
         holder.textView.setText(album.getTenalbum());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 int idalbum = album.getIdalbum();

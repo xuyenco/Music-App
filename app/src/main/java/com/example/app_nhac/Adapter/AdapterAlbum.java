@@ -5,6 +5,7 @@ package com.example.app_nhac.Adapter;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
@@ -17,7 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-
+import com.example.app_nhac.Activity.Album_NhacActivity;
 import com.example.app_nhac.R;
 import com.example.app_nhac.model.album;
 
@@ -47,6 +48,19 @@ public class AdapterAlbum extends RecyclerView.Adapter<AdapterAlbum.Adapteralbum
         holder.txttentg.setText(item_song.getTencasialbum());
         Bitmap hinhalbum = BitmapFactory.decodeByteArray(item_song.getHinhalbum(),0,item_song.getHinhalbum().length);
         holder.imageView.setImageBitmap(hinhalbum);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int idalbum = item_song.getIdalbum();
+                String tenalbum = item_song.getTenalbum();
+                System.out.println(idalbum);
+                Intent intent = new Intent(context, Album_NhacActivity.class);
+                intent.putExtra("idAlbum", idalbum);
+                intent.putExtra("album", tenalbum);
+                context.startActivity(intent);
+            }
+        });
 
     }
 

@@ -5,6 +5,7 @@ package com.example.app_nhac.Adapter;
 import static android.graphics.BitmapFactory.decodeByteArray;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
@@ -20,8 +21,11 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.example.app_nhac.Activity.NhacDangChayActivity;
 import com.example.app_nhac.Fragment.Fragment_Trangchu;
+import com.example.app_nhac.Instance.MyMediaPlayer;
 import com.example.app_nhac.R;
+import com.example.app_nhac.model.AudioModel;
 import com.example.app_nhac.model.baihat;
 
 
@@ -31,6 +35,8 @@ import java.util.ArrayList;
 public class Adapter_TopBXH extends RecyclerView.Adapter<Adapter_TopBXH.AdapterChude_theloai> {
    private Context context;
    private ArrayList<baihat> item_songArrayList;
+
+    ArrayList<AudioModel> songsList = new ArrayList<>();
 
     public Adapter_TopBXH(Context context, ArrayList<baihat> item_songArrayList) {
         this.context = context;
@@ -51,6 +57,22 @@ public class Adapter_TopBXH extends RecyclerView.Adapter<Adapter_TopBXH.AdapterC
       holder.imagebh.setImageBitmap(hinhbaihat);
      holder.txttentg.setText(item_song.getCasi());
      holder.txttenbh.setText(item_song.getTenbaihat());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //navigate to another acitivty
+
+                songsList.add(new AudioModel(item_song.getLinkbaihat(),item_song.getTenbaihat(),"12321",item_song.getHinhbaihat(),item_song.getCasi()));
+
+                MyMediaPlayer.getInstance().reset();
+                MyMediaPlayer.currentIndex = 0;
+                Intent intent = new Intent(context, NhacDangChayActivity.class);
+                intent.putExtra("LIST",songsList);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+            }
+        });
 
 
     }

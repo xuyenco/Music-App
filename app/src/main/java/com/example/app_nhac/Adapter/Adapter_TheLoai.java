@@ -40,7 +40,7 @@ public class Adapter_TheLoai extends RecyclerView.Adapter<Adapter_TheLoai.ViewHo
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view= LayoutInflater.from(context).inflate(R.layout.theload_item,parent,false);
 //        Context mContext = parent.getContext();
-//        // Khởi tạo LayoutInflater và inflate layout cho ViewHolder
+//        Khởi tạo LayoutInflater và inflate layout cho ViewHolder
 //        LayoutInflater inflater = LayoutInflater.from(mContext);
         return new ViewHolder(view);
     }

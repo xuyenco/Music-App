@@ -1,6 +1,7 @@
 package com.example.app_nhac.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
@@ -12,18 +13,23 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.example.app_nhac.Activity.Album_NhacActivity;
+import com.example.app_nhac.Activity.TheLoai_NhacActivity;
 import com.example.app_nhac.R;
 import com.example.app_nhac.model.chude;
+import com.example.app_nhac.model.theloai;
 
 import java.util.ArrayList;
 
 public class Adapter_chude extends RecyclerView.Adapter<Adapter_chude.adapter_chude> {
      private Context context;
      private ArrayList<chude> item_songArrayList;
+     private ArrayList<theloai> theloaiArrayList;
 
-    public Adapter_chude(Context context, ArrayList<chude> item_songArrayList) {
+    public Adapter_chude(Context context, ArrayList<chude> item_songArrayList,ArrayList<theloai> theloaiArrayList) {
         this.context = context;
         this.item_songArrayList = item_songArrayList;
+        this.theloaiArrayList = theloaiArrayList;
     }
 
     @NonNull
@@ -38,6 +44,23 @@ public class Adapter_chude extends RecyclerView.Adapter<Adapter_chude.adapter_ch
         chude item_song=item_songArrayList.get(position);
         Bitmap hinhchude = BitmapFactory.decodeByteArray(item_song.getHinhchude(),0,item_song.getHinhchude().length);
         holder.imagecd.setImageBitmap(hinhchude);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                chude picked = item_songArrayList.get(position);
+                for (theloai theloai : theloaiArrayList) {
+                    if (theloai.getIdchude() == picked.getIdchude()) {
+                        int idtheloai = theloai.getIdtheloai();
+                        String tenTheLoai = theloai.getTentheloai();
+                        Intent intent = new Intent(context, TheLoai_NhacActivity.class);
+                        intent.putExtra("idtheloai", idtheloai);
+                        intent.putExtra("theloai", tenTheLoai);
+                        context.startActivity(intent);
+                    }
+                }
+            }
+        });
 
     }
 
