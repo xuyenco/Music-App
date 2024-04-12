@@ -2,6 +2,7 @@ package com.example.app_nhac.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
@@ -16,11 +18,16 @@ import androidx.viewpager.widget.PagerAdapter;
 import com.bumptech.glide.Glide;
 import com.example.app_nhac.Activity.DanhsachbaihatActivity;
 
+import com.example.app_nhac.Activity.NhacDangChayActivity;
+import com.example.app_nhac.Instance.MyMediaPlayer;
 import com.example.app_nhac.R;
+import com.example.app_nhac.model.AudioModel;
 import com.example.app_nhac.model.baihat;
 import com.example.app_nhac.model.quangcao;
 import com.squareup.picasso.Picasso;
 
+import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Adapterbanner extends PagerAdapter {
@@ -29,9 +36,12 @@ public class Adapterbanner extends PagerAdapter {
 
     ArrayList<baihat> baihatArrayList;
 
-    public Adapterbanner(Context context, ArrayList<quangcao> item_songArrayList) {
+    ArrayList<AudioModel> songsList = new ArrayList<>();
+
+    public Adapterbanner(Context context, ArrayList<quangcao> item_songArrayList, ArrayList<baihat> baihatArrayList) {
         this.context = context;
         this.quangcaoArrayList = item_songArrayList;
+        this.baihatArrayList = baihatArrayList;
     }
 
     @Override
@@ -69,14 +79,29 @@ public class Adapterbanner extends PagerAdapter {
         txttenqc.setText(quangcaoArrayList.get(position).getTenbaihat());
         txtgtqc.setText(quangcaoArrayList.get(position).getNoidung());
         container.addView(view);
-//        view.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 //                Intent intent=new Intent(context, DanhsachbaihatActivity.class);
-//               // intent.putExtra("qc",quangcaoArrayList.get(position));
+//                intent.putExtra("qc", (Serializable) quangcaoArrayList.get(position));
 //                context.startActivity(intent);
-//            }
-//        });
+
+
+                for (baihat baihat :baihatArrayList){
+                    if (baihat.getIdbaihat() == quangcaoArrayList.get(position).getIdbahat()){
+                        songsList.add(new AudioModel(baihat.getLinkbaihat(),baihat.getTenbaihat(),"12321",baihat.getHinhbaihat(),baihat.getCasi()));
+
+                        MyMediaPlayer.getInstance().reset();
+                        MyMediaPlayer.currentIndex = 0;
+                        Intent intent = new Intent(context, NhacDangChayActivity.class);
+                        intent.putExtra("LIST",songsList);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(intent);
+                    }
+                }
+
+            }
+        });
         return view;
     }
 

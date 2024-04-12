@@ -221,7 +221,7 @@ public class Fragment_Trangchu extends Fragment {
 
 
         quangcaoArrayList=new ArrayList<>();
-        adapter_qc = new Adapterbanner(getContext(), quangcaoArrayList);
+        adapter_qc = new Adapterbanner(getContext(), quangcaoArrayList,baihatArrayList);
         Cursor cursor4=database.query("quangcao",null,null,null,null,null,null);
         cursor4.moveToFirst();
         quangcaoArrayList.clear();
@@ -239,8 +239,6 @@ public class Fragment_Trangchu extends Fragment {
                     break;
                 }
             }
-
-
             quangcaoArrayList.add(new quangcao(idqc,hinhqc,noidung,idbaihat,tenbaihat));
             cursor4.moveToNext();
 

@@ -10,6 +10,14 @@ public class baihat {
     public baihat() {
     }
 
+    public baihat(int idbaihat, String tenbaihat, String casi, byte[] hinhbaihat, String linkbaihat) {
+        this.linkbaihat = linkbaihat;
+        this.idbaihat = idbaihat;
+        this.tenbaihat = tenbaihat;
+        this.casi = casi;
+        this.hinhbaihat = hinhbaihat;
+    }
+
     public baihat(int idbaihat, int idalbum, int idtheloai, int idplaylist, String tenbaihat, String casi, String linkbaihat, byte[] hinhbaihat) {
         this.idbaihat = idbaihat;
         this.idalbum = idalbum;
