@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="none"
+    android:fillViewport="true"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Activity.Sign_up">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/layout_background_login"
+        android:orientation="vertical"
+        android:padding="20dp"
+        >
+
+
+    <TextView
+        android:id="@+id/textWelcome2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="100dp"
+        android:layout_marginBottom="50dp"
+        android:text="Create an Account"
+        android:textColor="@color/white"
+        android:textSize="24sp" />
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="Email"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <AutoCompleteTextView
+            android:id="@+id/email_create"
+            android:layout_width="match_parent"
+            android:layout_height="50sp"
+            android:background="@drawable/background_login_edit_text"
+            android:hint="Nhập email"
+            android:inputType="textEmailAddress"
+            android:paddingHorizontal="10dp"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Mật khẩu"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/password_create"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/background_login_edit_text"
+            android:hint="Nhập mật khẩu"
+            android:inputType="textPassword"
+            android:paddingHorizontal="10dp"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Tên người dùng"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+        <EditText
+            android:id="@+id/username_create_ET"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/background_login_edit_text"
+            android:hint="User name"
+            android:inputType="textPassword"
+            android:paddingHorizontal="10dp"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/acc_signUp_btn"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="52dp"
+            android:backgroundTint="#D7D6D7"
+            android:layout_marginBottom="20dp"
+            android:text="Đăng ký"
+            android:textAlignment="center"
+            android:textSize="15sp" />
+    </LinearLayout>
+</ScrollView>

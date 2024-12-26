@@ -42,7 +42,7 @@ public class NhacDangChayActivity extends AppCompatActivity implements PlaylistA
     MediaPlayer mediaPlayer = MyMediaPlayer.getInstance();
     NotificationManager notificationManager;
     int x = 0;
-    int current = -1;
+    int current = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,13 +66,11 @@ public class NhacDangChayActivity extends AppCompatActivity implements PlaylistA
         if (getIntent().getSerializableExtra("index") != null){
 
             current =(int) getIntent().getSerializableExtra("index");
+
         }
 
-
+        MyMediaPlayer.currentIndex = current;
         setResourcesWithMusic();
-
-
-
         NhacDangChayActivity.this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -161,17 +159,13 @@ public class NhacDangChayActivity extends AppCompatActivity implements PlaylistA
         }
     };
     void setResourcesWithMusic(){
-        if(current != -1){
-            MyMediaPlayer.currentIndex = current;
-        }
+
+
         currentSong = songsList.get(MyMediaPlayer.currentIndex);
 
         titleTv.setText(currentSong.getTitle());
 //        totalTimeTv.setText(convertToMMSS(currentSong.getDuration()));
 
-        if(current != -1){
-            MyMediaPlayer.currentIndex = current;
-        }
 
         pausePlay.setOnClickListener(v-> pausePlay());
         nextBtn.setOnClickListener(v-> playNextSong());
@@ -241,8 +235,7 @@ public class NhacDangChayActivity extends AppCompatActivity implements PlaylistA
         mediaPlayer.reset();
         setResourcesWithMusic();
     }
-
-    public static String convertToMMSS(String duration){
+     public static String convertToMMSS(String duration){
         Long millis = Long.parseLong(duration);
         return String.format("%02d:%02d",
                 TimeUnit.MILLISECONDS.toMinutes(millis) % TimeUnit.HOURS.toMinutes(1),
